@@ -16,26 +16,39 @@
             --accent-2: #3fb950;
             --accent-3: #d2a8ff;
             --border: #30363d;
+            --matrix-color: #00ff41;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: all 0.5s ease;
         }
+
+        /* Gizli Matrix Modu Sınıfı */
+        body.matrix-mode {
+            --bg-main: #000000;
+            --bg-card: #0a0a0a;
+            --text-main: var(--matrix-color);
+            --accent-1: var(--matrix-color);
+            --accent-2: var(--matrix-color);
+            --accent-3: var(--matrix-color);
+            --border: #003b00;
+            font-family: 'Fira Code', monospace;
+        }
+        body.matrix-mode .card { border: 1px solid var(--matrix-color); box-shadow: 0 0 10px rgba(0,255,65,0.2); }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-main); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-        /* Terminal CSS - Yaratıcı Özellik 1 */
+        /* İnteraktif Terminal */
         .terminal-container {
             max-width: 800px;
-            margin: 10vh auto;
+            margin: 8vh auto 5vh;
             background: #000;
             border-radius: 10px;
             border: 1px solid var(--border);
@@ -56,57 +69,42 @@
             font-family: 'Fira Code', monospace;
             font-size: 0.95rem;
             color: var(--accent-2);
-            min-height: 250px;
+            height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
-        .prompt::before { content: "erenbag@macbook:~$ "; color: var(--accent-1); }
-        .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent-2); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 5px; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .terminal-output { margin-bottom: 10px; white-space: pre-wrap; }
+        .terminal-input-line { display: flex; align-items: center; }
+        .prompt::before { content: "erenbag@macbook:~$ "; color: var(--accent-1); font-weight: bold; }
+        .terminal-input {
+            background: transparent; border: none; color: var(--accent-2); font-family: 'Fira Code', monospace;
+            font-size: 0.95rem; flex-grow: 1; outline: none; margin-left: 10px; caret-color: var(--accent-2);
+        }
 
         /* Ana İçerik */
-        section { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        section { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
         .section-title { font-size: 2rem; color: #fff; margin-bottom: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; display: inline-block; }
+        body.matrix-mode .section-title { color: var(--matrix-color); border-bottom-color: var(--matrix-color); }
 
-        /* Grid Sistemi */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         
-        /* Proje Kartları - Yaratıcı Özellik 2 (Hover ile Kod Gösterme) */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 25px;
-            position: relative;
             transition: 0.3s;
-            overflow: hidden;
+            cursor: pointer;
         }
         .card:hover { border-color: var(--accent-1); transform: translateY(-5px); }
         .card h3 { color: var(--accent-1); margin-bottom: 10px; }
         
         .tech-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent-1);
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin: 5px 5px 15px 0;
-            font-family: 'Fira Code', monospace;
+            display: inline-block; padding: 4px 10px; background: rgba(88, 166, 255, 0.1); color: var(--accent-1);
+            border-radius: 15px; font-size: 0.8rem; font-weight: 600; margin: 5px 5px 15px 0; font-family: 'Fira Code', monospace;
         }
-
-        /* Hover Kod Efekti */
-        .code-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(13, 17, 23, 0.95);
-            padding: 20px;
-            opacity: 0;
-            transition: 0.3s;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-3);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .card:hover .code-overlay { opacity: 1; }
+        body.matrix-mode .tech-tag { background: rgba(0, 255, 65, 0.1); color: var(--matrix-color); }
 
         .timeline { border-left: 2px solid var(--border); padding-left: 20px; margin-left: 10px; }
         .timeline-item { margin-bottom: 30px; position: relative; }
@@ -115,94 +113,77 @@
         footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); margin-top: 50px; color: #8b949e; }
         .social-icons a { color: var(--text-main); font-size: 1.5rem; margin: 0 10px; transition: 0.3s; }
         .social-icons a:hover { color: var(--accent-1); }
+        
+        #secret-trigger { cursor: pointer; transition: 0.3s; }
+        #secret-trigger:hover { color: var(--accent-1); text-shadow: 0 0 8px var(--accent-1); }
     </style>
 </head>
 <body>
 
-    <!-- Terminal Hero Section -->
+    <!-- İnteraktif Terminal Alanı -->
     <div class="terminal-container">
         <div class="terminal-header">
             <div class="terminal-btn btn-red"></div>
             <div class="terminal-btn btn-yellow"></div>
             <div class="terminal-btn btn-green"></div>
         </div>
-        <div class="terminal-body">
-            <div id="terminal-text"></div><span class="cursor"></span>
+        <div class="terminal-body" id="terminal-body" onclick="document.getElementById('cmd-input').focus()">
+            <div class="terminal-output" id="output">
+Initializing Eren Bağ's Portfolio OS...
+System loaded successfully.
+Type 'help' to see available commands.
+</div>
+            <div class="terminal-input-line">
+                <span class="prompt"></span>
+                <input type="text" id="cmd-input" class="terminal-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
         </div>
     </div>
 
     <section id="about">
         <h2 class="section-title">01. Hakkımda</h2>
         <div class="card">
-            <p style="font-size: 1.1rem; color: #fff;">
+            <p style="font-size: 1.1rem; color: var(--text-main);">
                 Türk-Alman Üniversitesi'nde Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. 
-                Sadece kod yazmayı değil, yazılım mimarisini ve algoritmik karmaşıklığı (Complexity) anlamayı seviyorum. 
-                Özellikle eşzamanlı programlama (Thread & Concurrency), nesne yönelimli sistemler ve doğrusal optimizasyon konularında araştırmalar yapıyor; try-catch bloklarından interface mantıklarına kadar temiz kod yazımı üzerine çalışıyorum. 
-                Akademik düzeyde Almanca (TestDaF 14) bilgim ve uluslararası deneyimimle çok dilli takımlara kolayca entegre olabiliyorum.
+                Algoritmaların mimarisini tasarlamak, zaman/alan karmaşıklığını (Complexity) minimize etmek ve C++ / Java tabanlı sistemler geliştirmek üzerine çalışıyorum. 
+                Almanya'da edindiğim profesyonel iş kültürü ve okulumun sunduğu teorik altyapıyı birleştirerek, eşzamanlı programlama ve lineer optimizasyon gibi ileri düzey konularda projeler üretiyorum.
             </p>
         </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title">02. Araştırma & Projeler</h2>
+        <h2 class="section-title">02. Kod & Projeler</h2>
         <div class="grid">
-            
             <div class="card">
-                <span class="tech-tag">C++</span> <span class="tech-tag">Simplex</span>
+                <span class="tech-tag">C++</span> <span class="tech-tag">Optimization</span>
                 <h3>Lineer Programlama Çözücü</h3>
-                <p>Maliyet ve kâr optimizasyonu için simplex algoritmasını temel alan, matris tabanlı matematiksel modelleme aracı.</p>
-                <div class="code-overlay">
-                    <span>> executing simplex_solver...<br>> optimal_value = 42.5<br>> constraints: SATISFIED</span>
-                </div>
+                <p>Maliyet ve kâr optimizasyonu için simplex algoritmasını temel alan matematiksel modelleme aracı.</p>
             </div>
-
             <div class="card">
                 <span class="tech-tag">Java</span> <span class="tech-tag">Concurrency</span>
-                <h3>Floyd-Warshall Multi-Thread</h3>
-                <p>Graf algoritmalarını Java Thread sınıfları kullanarak paralel hale getiren ve işlem süresini minimize eden asenkron rota hesaplayıcı.</p>
-                <div class="code-overlay">
-                    <span>Thread t1 = new Thread(task);<br>t1.start();<br>t1.join();<br>// Parallel execution done.</span>
-                </div>
+                <h3>Multi-Thread Graf Motoru</h3>
+                <p>Floyd-Warshall algoritmasını Thread sınıfları ile paralel hale getirerek işlem sürelerini hızlandıran asenkron mimari.</p>
             </div>
-
             <div class="card">
-                <span class="tech-tag">Python</span> <span class="tech-tag">Dynamic Programming</span>
-                <h3>Dinamik Algoritma Analizi</h3>
-                <p>Rucksack (Sırt Çantası) problemi ve Longest Common Substring (En Uzun Ortak Alt Dizi) gibi problemlerin zaman karmaşıklığını çözen analiz aracı.</p>
-                <div class="code-overlay">
-                    <span>def knapsack(W, wt, val, n):<br>&nbsp;&nbsp;dp = [[0 for x in range(W+1)]...<br>&nbsp;&nbsp;return dp[n][W]</span>
-                </div>
+                <span class="tech-tag">Python</span> <span class="tech-tag">AI & LLM</span>
+                <h3>Algoritma Analizörü</h3>
+                <p>Rucksack (Sırt Çantası) ve dinamik programlama problemlerinin karmaşıklığını test eden veri analiz sistemi.</p>
             </div>
-
-            <div class="card">
-                <span class="tech-tag">Unity</span> <span class="tech-tag">C#</span>
-                <h3>Oyun Mekaniği Tasarımı</h3>
-                <p>Fizik motorları ve arayüz (Interface) mantığı kullanılarak tasarlanmış esnek ve genişletilebilir oyun sistemleri.</p>
-                <div class="code-overlay">
-                    <span>public interface IDamageable {<br>&nbsp;&nbsp;void TakeDamage(int amount);<br>}</span>
-                </div>
-            </div>
-
         </div>
     </section>
 
     <section id="experience">
-        <h2 class="section-title">03. Deneyim & Liderlik</h2>
+        <h2 class="section-title">03. Deneyim & İletişim</h2>
         <div class="timeline">
             <div class="timeline-item">
-                <h3 style="color: #fff;">Araç Yükleme Operatörü</h3>
+                <h3 style="color: var(--text-main);">Uluslararası Profesyonel Deneyim</h3>
                 <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">Almanya | 07/2025 - 10/2025</p>
-                <p>Tamamen Almanca konuşulan bir ortamda uluslararası adaptasyon ve operasyonel problem çözme becerileri.</p>
+                <p>Tamamen Almanca konuşulan bir ortamda adaptasyon, yüksek operasyonel disiplin ve kriz yönetimi.</p>
             </div>
             <div class="timeline-item">
-                <h3 style="color: #fff;">BİTEG Kulübü Başkanı</h3>
-                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">Türk-Alman Üni. | 2020 - 2022</p>
-                <p>Bilim ve teknoloji etkinlikleri yönetimi, ekip liderliği ve teknolojik seminer organizasyonları.</p>
-            </div>
-            <div class="timeline-item">
-                <h3 style="color: #fff;">Voleybol Takımı Kaptanı</h3>
-                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">2019 - 2021</p>
-                <p>Baskı altında stratejik karar alma ve takım motivasyonunu yönetme deneyimi.</p>
+                <h3 style="color: var(--text-main);">Liderlik: BİTEG & Spor</h3>
+                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">2019 - 2022</p>
+                <p>Bilim Teknoloji Kulübü (BİTEG) Başkanlığı ve Okul Voleybol Takımı Kaptanlığı ile stratejik ekip yönetimi.</p>
             </div>
         </div>
     </section>
@@ -213,43 +194,69 @@
             <a href="https://www.linkedin.com/in/erenbag/" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="mailto:erenbag23159@gmail.com"><i class="fas fa-envelope"></i></a>
         </div>
-        <p>System Build by Muhammed Eren Bağ © 2026</p>
+        <!-- Matrix modunu tetikleyen gizli buton -->
+        <p id="secret-trigger" onclick="activateMatrixMode()">Muhammed Eren Bağ © 2026</p>
     </footer>
 
     <script>
-        // Terminal Simülatörü Yazı Efekti
-        const commands = [
-            "init portfolio --user 'Eren Bağ'",
-            "loading modules...",
-            "> C++ / Java / Python / C#",
-            "> algorithms: parallele_algorithmen, lineare_programmierung",
-            "status: READY. Welcome to my workspace."
-        ];
-        
-        let cmdIndex = 0;
-        let charIndex = 0;
-        const terminalText = document.getElementById('terminal-text');
+        // İnteraktif Terminal Mantığı
+        const inputField = document.getElementById('cmd-input');
+        const outputField = document.getElementById('output');
+        const terminalBody = document.getElementById('terminal-body');
 
-        function typeCommand() {
-            if (cmdIndex < commands.length) {
-                if (charIndex === 0) {
-                    terminalText.innerHTML += '<br><span class="prompt"></span>';
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const command = inputField.value.trim().toLowerCase();
+                let response = '';
+
+                // Komutlara verilecek cevaplar
+                switch (command) {
+                    case 'help':
+                        response = 'Available commands: \n- about: Read a short intro\n- skills: List technical skills\n- clear: Clear the terminal\n- sudo: ?';
+                        break;
+                    case 'about':
+                        response = 'Computer Science student at TGU. Passionate about AI, LLMs, and complex algorithms.';
+                        break;
+                    case 'skills':
+                        response = '> C, C++, Java, C#, Python, Unity\n> Optimization, Concurrent Programming';
+                        break;
+                    case 'sudo':
+                        response = 'Permission denied. You are not Muhammed Eren Bağ.';
+                        break;
+                    case 'clear':
+                        outputField.innerHTML = '';
+                        inputField.value = '';
+                        return;
+                    case '':
+                        response = '';
+                        break;
+                    default:
+                        response = `Command not found: ${command}. Type 'help' for a list of commands.`;
                 }
-                
-                if (charIndex < commands[cmdIndex].length) {
-                    terminalText.innerHTML += commands[cmdIndex].charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeCommand, 40); // Yazma hızı
+
+                // Ekrana yazdırma
+                if (command !== '') {
+                    outputField.innerHTML += `\n<span class="prompt"></span>${command}\n${response}`;
                 } else {
-                    cmdIndex++;
-                    charIndex = 0;
-                    setTimeout(typeCommand, 600); // Satır arası bekleme
+                    outputField.innerHTML += `\n<span class="prompt"></span>`;
                 }
+
+                inputField.value = '';
+                terminalBody.scrollTop = terminalBody.scrollHeight; // Otomatik aşağı kaydır
             }
+        });
+
+        // Gizli Matrix Modu
+        function activateMatrixMode() {
+            document.body.classList.toggle('matrix-mode');
+            const output = document.getElementById('output');
+            if(document.body.classList.contains('matrix-mode')) {
+                output.innerHTML += `\n\n[SYSTEM OVERRIDE] Wake up, Eren...\nThe Matrix has you.\n`;
+            } else {
+                output.innerHTML += `\n\n[SYSTEM RESTORED] Normal mode engaged.\n`;
+            }
+            terminalBody.scrollTop = terminalBody.scrollHeight;
         }
-        
-        // Animasyonu başlat
-        setTimeout(typeCommand, 500);
     </script>
 </body>
 </html>
