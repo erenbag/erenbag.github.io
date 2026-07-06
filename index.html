@@ -15,6 +15,17 @@
             --secondary: #45a29e;
             --text-main: #c5c6c7;
             --text-light: #ffffff;
+            --glow: rgba(102, 252, 241, 0.15);
+        }
+
+        .light-mode {
+            --bg-color: #f0f4f8;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --text-main: #334155;
+            --text-light: #0f172a;
+            --glow: rgba(37, 99, 235, 0.15);
         }
 
         * {
@@ -23,6 +34,7 @@
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
             scroll-behavior: smooth;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         body {
@@ -30,26 +42,49 @@
             color: var(--text-main);
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(102, 252, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(69, 162, 158, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 15% 50%, var(--glow) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, var(--glow) 0%, transparent 50%);
         }
 
-        /* Özel Kaydırma Çubuğu */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        /* Mouse Efekti */
         .cursor-glow {
             width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(102,252,241,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: -1;
-            transition: 0.1s ease-out;
+            transition: width 0.3s, height 0.3s;
+        }
+
+        /* Tema Butonu */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        .theme-toggle:hover {
+            transform: rotate(30deg) scale(1.1);
+            background: var(--primary);
+            color: var(--bg-color);
         }
 
         header {
@@ -68,10 +103,8 @@
             font-weight: 700;
             color: var(--text-light);
             margin-bottom: 20px;
-            text-transform: uppercase;
             letter-spacing: 2px;
         }
-
         .title span {
             background: linear-gradient(90deg, var(--primary), #b392ac);
             -webkit-background-clip: text;
@@ -83,6 +116,7 @@
             color: var(--primary);
             min-height: 30px;
             margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .scroll-down {
@@ -91,7 +125,6 @@
             font-size: 2rem;
             color: var(--primary);
             animation: bounce 2s infinite;
-            text-decoration: none;
         }
 
         @keyframes bounce {
@@ -111,99 +144,72 @@
         .section-title {
             font-size: 2.5rem;
             color: var(--text-light);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             text-align: center;
             position: relative;
         }
-        
         .section-title::after {
             content: '';
             width: 80px; height: 4px;
             background: var(--primary);
             position: absolute;
-            bottom: -10px; left: 50%;
+            bottom: -15px; left: 50%;
             transform: translateX(-50%);
             border-radius: 2px;
         }
 
+        /* 3D Glass Card */
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(102, 252, 241, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(102, 252, 241, 0.2);
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, border-color 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             opacity: 0;
             transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out, border-color 0.3s;
+            transform-style: preserve-3d;
         }
-
         .glass-card.visible {
             opacity: 1;
             transform: translateY(0);
-            transition: all 0.8s ease-out;
         }
 
-        .glass-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            border-color: var(--primary);
-        }
+        /* Progress Bars */
+        .skill-box { margin-bottom: 20px; }
+        .skill-name { display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--text-light); font-weight: bold; }
+        .skill-bar { height: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; }
+        .skill-level { height: 100%; background: var(--primary); width: 0; border-radius: 10px; transition: width 1.5s ease-in-out; }
 
-        .skills-grid {
+        /* Proje Grid */
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
-
-        .skill-tag {
-            background: rgba(69, 162, 158, 0.1);
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            display: inline-block;
-            margin: 5px;
-            border: 1px solid var(--secondary);
-            transition: 0.3s;
-        }
-
-        .skill-tag:hover {
-            background: var(--primary);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        .timeline-item {
-            border-left: 3px solid var(--primary);
-            padding-left: 20px;
-            margin-bottom: 30px;
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(102, 252, 241, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); transform: scaleY(0); transition: 0.3s;
+        }
+        .project-card:hover::before { transform: scaleY(1); }
+        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); border-color: var(--primary); }
+        .project-card h3 { color: var(--text-light); margin-bottom: 15px; font-size: 1.4rem; }
+        .project-tag { background: var(--primary); color: var(--bg-color); font-size: 0.8rem; padding: 5px 10px; border-radius: 15px; font-weight: bold; margin-right: 5px; display: inline-block; margin-bottom: 10px; }
 
-        .timeline-item::before {
-            content: '';
-            width: 15px; height: 15px;
-            background: var(--bg-color);
-            border: 3px solid var(--primary);
-            border-radius: 50%;
-            position: absolute;
-            left: -12px; top: 0;
-        }
-
-        .timeline-date { color: var(--secondary); font-weight: bold; margin-bottom: 10px; }
-        
-        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
-        .social-links a {
-            color: var(--text-light);
-            font-size: 2rem;
-            transition: 0.3s;
-        }
-        .social-links a:hover {
-            color: var(--primary);
-            transform: translateY(-5px);
-            text-shadow: 0 0 10px var(--primary);
-        }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin-top: 40px; }
+        .social-links a { color: var(--text-light); font-size: 2.5rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--primary); transform: translateY(-8px); text-shadow: 0 0 15px var(--primary); }
 
         @media (max-width: 768px) {
             .title { font-size: 2.5rem; }
@@ -213,83 +219,115 @@
 </head>
 <body>
 
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">
+        <i class="fas fa-sun" id="themeIcon"></i>
+    </button>
+
     <div class="cursor-glow" id="cursorGlow"></div>
 
     <header id="home">
         <h1 class="title">Muhammed <span>Eren Bağ</span></h1>
         <div class="typewriter" id="typewriter"></div>
-        <p style="max-width: 600px; margin-top: 20px; font-size: 1.1rem;">
-            Türk-Alman Üniversitesi | Bilgisayar Mühendisliği
+        <p style="max-width: 600px; margin-top: 20px; font-size: 1.2rem; line-height: 1.6;">
+            Türk-Alman Üniversitesi Bilgisayar Mühendisliği Öğrencisi.<br>
+            Teorik algoritmaları pratik çözümlere dönüştüren bir geliştirici.
         </p>
         <a href="#about" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
     </header>
 
     <section id="about">
-        <h2 class="section-title">Hakkımda</h2>
-        <div class="glass-card reveal">
-            <p style="font-size: 1.2rem; line-height: 1.8;">
+        <h2 class="section-title">Algoritmanın Arkasındaki Zihin</h2>
+        <div class="glass-card reveal 3d-card">
+            <p style="font-size: 1.15rem; line-height: 1.8;">
                 Merhaba! Ben Muhammed Eren Bağ. Türk-Alman Üniversitesi'nde Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. 
-                Yazılım geliştirme, yapay zeka ve algoritmalar dünyasına büyük bir tutku duyuyorum. 
-                Sadece kod yazmakla kalmıyor; paralel algoritmalar, doğrusal programlama (Lineare Programmierung), eşzamanlı programlama mimarileri ve optimizasyon problemlerine akademik bir merakla yaklaşıyorum. 
-                Ayrıca oyun mekaniklerini analiz etmeyi ve yenilikçi projeler üretmeyi seviyorum. 
-                Uluslararası deneyimim ve liderlik ruhumla, takımlara değer katmaya her zaman hazırım.
+                Sadece kod yazan değil, kodun "neden" ve "nasıl" daha verimli çalışacağını sorgulayan bir mühendis adayıyım. 
+                Paralel algoritmalar, dinamik programlama ve optimizasyon problemleri üzerine yoğunlaşıyor; Java'da çok iş parçacıklı (Thread) yapılar kurmaktan, C++ ile doğrusal programlama modelleri çözmeye kadar geniş bir yelpazede araştırmalar yapıyorum. 
+                Ekip çalışmasına yatkınlığım ve Almanya'da edindiğim uluslararası profesyonel deneyimle, karmaşık projelere yenilikçi bakış açıları getiriyorum.
             </p>
         </div>
     </section>
 
     <section id="skills">
-        <h2 class="section-title">Teknik Cephanelik</h2>
-        <div class="glass-card reveal">
-            <h3 style="margin-bottom: 20px; color: var(--text-light);">Programlama & Teknolojiler</h3>
+        <h2 class="section-title">Teknik Yetkinlikler</h2>
+        <div class="glass-card reveal 3d-card" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
             <div>
-                <span class="skill-tag">C / C++ (OOP)</span>
-                <span class="skill-tag">Java (Concurrent Programming)</span>
-                <span class="skill-tag">C# & Unity</span>
-                <span class="skill-tag">Python (AI & LLMs)</span>
+                <h3 style="color: var(--text-light); margin-bottom: 20px;"><i class="fas fa-code"></i> Diller & Core</h3>
+                <div class="skill-box">
+                    <div class="skill-name"><span>C / C++ (OOP)</span> <span>90%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="90%"></div></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-name"><span>Java (Concurrency)</span> <span>85%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="85%"></div></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-name"><span>Python (AI & Data)</span> <span>80%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="80%"></div></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-name"><span>C# & Unity</span> <span>70%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="70%"></div></div>
+                </div>
             </div>
             
-            <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--text-light);">Teorik & Pratik Odaklar</h3>
             <div>
-                <span class="skill-tag">Algoritma Tasarımı & Optimizasyon</span>
-                <span class="skill-tag">Paralel Algoritmalar</span>
-                <span class="skill-tag">Lineer Programlama</span>
-                <span class="skill-tag">Oyun Mekanikleri Tasarımı</span>
+                <h3 style="color: var(--text-light); margin-bottom: 20px;"><i class="fas fa-brain"></i> Uzmanlık Alanları</h3>
+                <div class="skill-box">
+                    <div class="skill-name"><span>Algoritma & Veri Yapıları</span> <span>95%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="95%"></div></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-name"><span>Paralel Programlama</span> <span>80%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="80%"></div></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-name"><span>Optimizasyon Problemleri</span> <span>85%</span></div>
+                    <div class="skill-bar"><div class="skill-level" data-width="85%"></div></div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="experience">
-        <h2 class="section-title">Deneyim & Liderlik</h2>
-        <div class="glass-card reveal">
+    <section id="projects">
+        <h2 class="section-title">Projeleri Keşfet</h2>
+        <div class="project-grid">
             
-            <div class="timeline-item">
-                <div class="timeline-date"><i class="fas fa-globe-europe"></i> 07/2025 - 10/2025 | Almanya</div>
-                <h3 style="color: var(--text-light);">Araç Yükleme Operatörü</h3>
-                <p>Tamamen Almanca konuşulan bir ekipte çalışarak profesyonel iş ortamında dil yetkinliğimi (TestDaF 14) ve adaptasyon becerimi geliştirdim. Yüksek güvenlik protokolleri uygulayarak sorumluluk aldım.</p>
+            <div class="project-card reveal">
+                <span class="project-tag">Java</span> <span class="project-tag">Concurrency</span>
+                <h3>Floyd-Warshall Multi-Thread Çözücü</h3>
+                <p>Graf teorisindeki en kısa yol problemini, Java Thread mimarisi kullanarak çok iş parçacıklı hale getiren performans odaklı bir araştırma projesi. Büyük veri setlerinde rota optimizasyonu sağlar.</p>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date"><i class="fas fa-users"></i> 09/2020 - 06/2022</div>
-                <h3 style="color: var(--text-light);">BİTEG (Bilim ve Teknoloji Kulübü) Başkanı</h3>
-                <p>Bilim ve teknoloji odaklı seminerler düzenledim. Öğrenci ekibini yöneterek liderlik, takım içi iletişim ve sunum becerilerimi üst seviyeye taşıdım.</p>
+            <div class="project-card reveal">
+                <span class="project-tag">C++</span> <span class="project-tag">Math</span>
+                <h3>Lineer Optimizasyon Motoru</h3>
+                <p>Simplex algoritması temellerine dayanan, endüstriyel kâr/maliyet problemlerini çözmek için geliştirilmiş doğrusal programlama (Lineare Programmierung) hesaplama aracı.</p>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date"><i class="fas fa-volleyball-ball"></i> 09/2019 - 06/2021</div>
-                <h3 style="color: var(--text-light);">Okul Voleybol Takımı Kaptanı</h3>
-                <p>Turnuvalarda takıma liderlik ettim. Baskı altında hızlı karar alma ve motivasyon sağlama yeteneklerimi güçlendirdim.</p>
+            <div class="project-card reveal">
+                <span class="project-tag">Python</span> <span class="project-tag">Algorithms</span>
+                <h3>Dinamik Programlama Analizörü</h3>
+                <p>Rucksack (Sırt Çantası) ve Longest Common Substring gibi karmaşık problemlerin zaman ve alan karmaşıklığını (Complexity) görselleştiren, akademik bir analiz aracı.</p>
+            </div>
+
+            <div class="project-card reveal">
+                <span class="project-tag">Unity</span> <span class="project-tag">C#</span>
+                <h3>Oyun Mekaniği & Yapay Zeka Ajanı</h3>
+                <p>Oyuncu davranışlarına dinamik olarak tepki veren, State Machine (Durum Makinesi) mantığıyla çalışan temel seviye düşman yapay zekası ve fizik tabanlı hareket sistemleri.</p>
             </div>
 
         </div>
     </section>
 
-    <section id="contact" style="min-height: 60vh;">
+    <section id="contact" style="min-height: 70vh;">
         <h2 class="section-title">Bağlantıya Geçelim</h2>
-        <div class="glass-card reveal" style="text-align: center;">
+        <div class="glass-card reveal 3d-card" style="text-align: center;">
             <p style="font-size: 1.2rem; margin-bottom: 30px;">
-                Yeni projeler, staj fırsatları veya sadece teknoloji hakkında sohbet etmek için bana ulaşabilirsiniz.
+                Staj fırsatları, ortak projeler veya algoritma optimizasyonları üzerine derin bir sohbet için kapım her zaman açık.
             </p>
-            <a href="mailto:erenbag23159@gmail.com" class="skill-tag" style="font-size: 1.2rem;"><i class="fas fa-envelope"></i> erenbag23159@gmail.com</a>
+            <a href="mailto:erenbag23159@gmail.com" style="color: var(--primary); font-size: 1.5rem; text-decoration: none; font-weight: bold;">
+                <i class="fas fa-envelope"></i> erenbag23159@gmail.com
+            </a>
             
             <div class="social-links">
                 <a href="https://github.com/erenbag" target="_blank"><i class="fab fa-github"></i></a>
@@ -299,58 +337,84 @@
     </section>
 
     <script>
-        // Daktilo (Typewriter) Efekti
-        const texts = [
-            "Bilgisayar Mühendisliği Öğrencisi", 
-            "Yapay Zeka & LLM Meraklısı", 
-            "Algoritma Tasarımcısı", 
-            "Oyun Geliştiricisi"
-        ];
-        let count = 0;
-        let index = 0;
-        let currentText = '';
-        let letter = '';
+        // Tema Değiştirici
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.getElementById('themeIcon');
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
 
+        // Daktilo Efekti
+        const texts = ["Yazılım Geliştirici", "Algoritma Analisti", "Yapay Zeka Meraklısı", "Problem Çözücü"];
+        let count = 0, index = 0, currentText = '', letter = '';
         (function type() {
-            if (count === texts.length) { count = 0; }
+            if (count === texts.length) count = 0;
             currentText = texts[count];
             letter = currentText.slice(0, ++index);
-            
             document.getElementById('typewriter').textContent = letter;
             if (letter.length === currentText.length) {
-                count++;
-                index = 0;
-                setTimeout(type, 2000); // Kelime bitince bekle
+                count++; index = 0; setTimeout(type, 2000);
             } else {
-                setTimeout(type, 100); // Harf yazma hızı
+                setTimeout(type, 100);
             }
         }());
 
-        // Mouse Takip (Glow) Efekti
+        // Cursor Glow
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
+        window.addEventListener('mousedown', () => glow.style.transform = 'translate(-50%, -50%) scale(0.8)');
+        window.addEventListener('mouseup', () => glow.style.transform = 'translate(-50%, -50%) scale(1)');
 
-        // Scroll Reveal (Aşağı Kaydırdıkça Kartların Gelmesi) Efekti
+        // Scroll Reveal ve Yetenek Barları Animasyonu
         const reveals = document.querySelectorAll('.reveal');
+        const skillBars = document.querySelectorAll('.skill-level');
         
         const revealOnScroll = () => {
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 100;
+            const windowHeight = window.innerHeight;
+            
+            // Kartları göster
+            reveals.forEach(reveal => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) reveal.classList.add('visible');
+            });
 
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add('visible');
+            // Skills kısmına gelince barları doldur
+            skillBars.forEach(bar => {
+                const elementTop = bar.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) {
+                    bar.style.width = bar.getAttribute('data-width');
                 }
-            }
+            });
         };
-
         window.addEventListener('scroll', revealOnScroll);
-        // Sayfa yüklendiğinde ilk elementleri kontrol et
         revealOnScroll();
+
+        // 3D Kart Tilt Efekti
+        const cards = document.querySelectorAll('.3d-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
     </script>
 </body>
 </html>
