@@ -3,418 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammed Eren Bağ | Yazılım & Yapay Zeka</title>
+    <title>M. Eren Bağ | CS Portfolio</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;500;700&display=swap');
 
         :root {
-            --bg-color: #0b0c10;
-            --card-bg: rgba(31, 40, 51, 0.6);
-            --primary: #66fcf1;
-            --secondary: #45a29e;
-            --text-main: #c5c6c7;
-            --text-light: #ffffff;
-            --glow: rgba(102, 252, 241, 0.15);
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --text-main: #c9d1d9;
+            --accent-1: #58a6ff;
+            --accent-2: #3fb950;
+            --accent-3: #d2a8ff;
+            --border: #30363d;
         }
 
-        .light-mode {
-            --bg-color: #f0f4f8;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --primary: #2563eb;
-            --secondary: #3b82f6;
-            --text-main: #334155;
-            --text-light: #0f172a;
-            --glow: rgba(37, 99, 235, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-            scroll-behavior: smooth;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
             color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 50%, var(--glow) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, var(--glow) 0%, transparent 50%);
         }
 
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 5px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-        .cursor-glow {
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            transition: width 0.3s, height 0.3s;
-        }
-
-        /* Tema Butonu */
-        .theme-toggle {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: var(--card-bg);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-        }
-        .theme-toggle:hover {
-            transform: rotate(30deg) scale(1.1);
-            background: var(--primary);
-            color: var(--bg-color);
-        }
-
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-        }
-
-        .title {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-        .title span {
-            background: linear-gradient(90deg, var(--primary), #b392ac);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .typewriter {
-            font-size: 1.5rem;
-            color: var(--primary);
-            min-height: 30px;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        .scroll-down {
-            position: absolute;
-            bottom: 40px;
-            font-size: 2rem;
-            color: var(--primary);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-
-        section {
-            padding: 100px 10vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--text-light);
-            margin-bottom: 60px;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            width: 80px; height: 4px;
-            background: var(--primary);
-            position: absolute;
-            bottom: -15px; left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        /* 3D Glass Card */
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(102, 252, 241, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out, border-color 0.3s;
-            transform-style: preserve-3d;
-        }
-        .glass-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Progress Bars */
-        .skill-box { margin-bottom: 20px; }
-        .skill-name { display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--text-light); font-weight: bold; }
-        .skill-bar { height: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; }
-        .skill-level { height: 100%; background: var(--primary); width: 0; border-radius: 10px; transition: width 1.5s ease-in-out; }
-
-        /* Proje Grid */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(102, 252, 241, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+        /* Terminal CSS - Yaratıcı Özellik 1 */
+        .terminal-container {
+            max-width: 800px;
+            margin: 10vh auto;
+            background: #000;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             overflow: hidden;
         }
-        .project-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); transform: scaleY(0); transition: 0.3s;
+        .terminal-header {
+            background: var(--bg-card);
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
         }
-        .project-card:hover::before { transform: scaleY(1); }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); border-color: var(--primary); }
-        .project-card h3 { color: var(--text-light); margin-bottom: 15px; font-size: 1.4rem; }
-        .project-tag { background: var(--primary); color: var(--bg-color); font-size: 0.8rem; padding: 5px 10px; border-radius: 15px; font-weight: bold; margin-right: 5px; display: inline-block; margin-bottom: 10px; }
-
-        .social-links { display: flex; justify-content: center; gap: 25px; margin-top: 40px; }
-        .social-links a { color: var(--text-light); font-size: 2.5rem; transition: 0.3s; }
-        .social-links a:hover { color: var(--primary); transform: translateY(-8px); text-shadow: 0 0 15px var(--primary); }
-
-        @media (max-width: 768px) {
-            .title { font-size: 2.5rem; }
-            section { padding: 60px 5vw; }
+        .terminal-btn { width: 12px; height: 12px; border-radius: 50%; }
+        .btn-red { background: #ff5f56; } .btn-yellow { background: #ffbd2e; } .btn-green { background: #27c93f; }
+        .terminal-body {
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-2);
+            min-height: 250px;
         }
+        .prompt::before { content: "erenbag@macbook:~$ "; color: var(--accent-1); }
+        .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent-2); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 5px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Ana İçerik */
+        section { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .section-title { font-size: 2rem; color: #fff; margin-bottom: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; display: inline-block; }
+
+        /* Grid Sistemi */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        /* Proje Kartları - Yaratıcı Özellik 2 (Hover ile Kod Gösterme) */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .card:hover { border-color: var(--accent-1); transform: translateY(-5px); }
+        .card h3 { color: var(--accent-1); margin-bottom: 10px; }
+        
+        .tech-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-1);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 5px 5px 15px 0;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Hover Kod Efekti */
+        .code-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 17, 23, 0.95);
+            padding: 20px;
+            opacity: 0;
+            transition: 0.3s;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card:hover .code-overlay { opacity: 1; }
+
+        .timeline { border-left: 2px solid var(--border); padding-left: 20px; margin-left: 10px; }
+        .timeline-item { margin-bottom: 30px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-1); }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); margin-top: 50px; color: #8b949e; }
+        .social-icons a { color: var(--text-main); font-size: 1.5rem; margin: 0 10px; transition: 0.3s; }
+        .social-icons a:hover { color: var(--accent-1); }
     </style>
 </head>
 <body>
 
-    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">
-        <i class="fas fa-sun" id="themeIcon"></i>
-    </button>
-
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <header id="home">
-        <h1 class="title">Muhammed <span>Eren Bağ</span></h1>
-        <div class="typewriter" id="typewriter"></div>
-        <p style="max-width: 600px; margin-top: 20px; font-size: 1.2rem; line-height: 1.6;">
-            Türk-Alman Üniversitesi Bilgisayar Mühendisliği Öğrencisi.<br>
-            Teorik algoritmaları pratik çözümlere dönüştüren bir geliştirici.
-        </p>
-        <a href="#about" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
-    </header>
+    <!-- Terminal Hero Section -->
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-btn btn-red"></div>
+            <div class="terminal-btn btn-yellow"></div>
+            <div class="terminal-btn btn-green"></div>
+        </div>
+        <div class="terminal-body">
+            <div id="terminal-text"></div><span class="cursor"></span>
+        </div>
+    </div>
 
     <section id="about">
-        <h2 class="section-title">Algoritmanın Arkasındaki Zihin</h2>
-        <div class="glass-card reveal 3d-card">
-            <p style="font-size: 1.15rem; line-height: 1.8;">
-                Merhaba! Ben Muhammed Eren Bağ. Türk-Alman Üniversitesi'nde Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. 
-                Sadece kod yazan değil, kodun "neden" ve "nasıl" daha verimli çalışacağını sorgulayan bir mühendis adayıyım. 
-                Paralel algoritmalar, dinamik programlama ve optimizasyon problemleri üzerine yoğunlaşıyor; Java'da çok iş parçacıklı (Thread) yapılar kurmaktan, C++ ile doğrusal programlama modelleri çözmeye kadar geniş bir yelpazede araştırmalar yapıyorum. 
-                Ekip çalışmasına yatkınlığım ve Almanya'da edindiğim uluslararası profesyonel deneyimle, karmaşık projelere yenilikçi bakış açıları getiriyorum.
+        <h2 class="section-title">01. Hakkımda</h2>
+        <div class="card">
+            <p style="font-size: 1.1rem; color: #fff;">
+                Türk-Alman Üniversitesi'nde Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. 
+                Sadece kod yazmayı değil, yazılım mimarisini ve algoritmik karmaşıklığı (Complexity) anlamayı seviyorum. 
+                Özellikle eşzamanlı programlama (Thread & Concurrency), nesne yönelimli sistemler ve doğrusal optimizasyon konularında araştırmalar yapıyor; try-catch bloklarından interface mantıklarına kadar temiz kod yazımı üzerine çalışıyorum. 
+                Akademik düzeyde Almanca (TestDaF 14) bilgim ve uluslararası deneyimimle çok dilli takımlara kolayca entegre olabiliyorum.
             </p>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2 class="section-title">Teknik Yetkinlikler</h2>
-        <div class="glass-card reveal 3d-card" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-            <div>
-                <h3 style="color: var(--text-light); margin-bottom: 20px;"><i class="fas fa-code"></i> Diller & Core</h3>
-                <div class="skill-box">
-                    <div class="skill-name"><span>C / C++ (OOP)</span> <span>90%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="90%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Java (Concurrency)</span> <span>85%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="85%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Python (AI & Data)</span> <span>80%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="80%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>C# & Unity</span> <span>70%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="70%"></div></div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--text-light); margin-bottom: 20px;"><i class="fas fa-brain"></i> Uzmanlık Alanları</h3>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Algoritma & Veri Yapıları</span> <span>95%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="95%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Paralel Programlama</span> <span>80%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="80%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Optimizasyon Problemleri</span> <span>85%</span></div>
-                    <div class="skill-bar"><div class="skill-level" data-width="85%"></div></div>
-                </div>
-            </div>
         </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title">Projeleri Keşfet</h2>
-        <div class="project-grid">
+        <h2 class="section-title">02. Araştırma & Projeler</h2>
+        <div class="grid">
             
-            <div class="project-card reveal">
-                <span class="project-tag">Java</span> <span class="project-tag">Concurrency</span>
-                <h3>Floyd-Warshall Multi-Thread Çözücü</h3>
-                <p>Graf teorisindeki en kısa yol problemini, Java Thread mimarisi kullanarak çok iş parçacıklı hale getiren performans odaklı bir araştırma projesi. Büyük veri setlerinde rota optimizasyonu sağlar.</p>
+            <div class="card">
+                <span class="tech-tag">C++</span> <span class="tech-tag">Simplex</span>
+                <h3>Lineer Programlama Çözücü</h3>
+                <p>Maliyet ve kâr optimizasyonu için simplex algoritmasını temel alan, matris tabanlı matematiksel modelleme aracı.</p>
+                <div class="code-overlay">
+                    <span>> executing simplex_solver...<br>> optimal_value = 42.5<br>> constraints: SATISFIED</span>
+                </div>
             </div>
 
-            <div class="project-card reveal">
-                <span class="project-tag">C++</span> <span class="project-tag">Math</span>
-                <h3>Lineer Optimizasyon Motoru</h3>
-                <p>Simplex algoritması temellerine dayanan, endüstriyel kâr/maliyet problemlerini çözmek için geliştirilmiş doğrusal programlama (Lineare Programmierung) hesaplama aracı.</p>
+            <div class="card">
+                <span class="tech-tag">Java</span> <span class="tech-tag">Concurrency</span>
+                <h3>Floyd-Warshall Multi-Thread</h3>
+                <p>Graf algoritmalarını Java Thread sınıfları kullanarak paralel hale getiren ve işlem süresini minimize eden asenkron rota hesaplayıcı.</p>
+                <div class="code-overlay">
+                    <span>Thread t1 = new Thread(task);<br>t1.start();<br>t1.join();<br>// Parallel execution done.</span>
+                </div>
             </div>
 
-            <div class="project-card reveal">
-                <span class="project-tag">Python</span> <span class="project-tag">Algorithms</span>
-                <h3>Dinamik Programlama Analizörü</h3>
-                <p>Rucksack (Sırt Çantası) ve Longest Common Substring gibi karmaşık problemlerin zaman ve alan karmaşıklığını (Complexity) görselleştiren, akademik bir analiz aracı.</p>
+            <div class="card">
+                <span class="tech-tag">Python</span> <span class="tech-tag">Dynamic Programming</span>
+                <h3>Dinamik Algoritma Analizi</h3>
+                <p>Rucksack (Sırt Çantası) problemi ve Longest Common Substring (En Uzun Ortak Alt Dizi) gibi problemlerin zaman karmaşıklığını çözen analiz aracı.</p>
+                <div class="code-overlay">
+                    <span>def knapsack(W, wt, val, n):<br>&nbsp;&nbsp;dp = [[0 for x in range(W+1)]...<br>&nbsp;&nbsp;return dp[n][W]</span>
+                </div>
             </div>
 
-            <div class="project-card reveal">
-                <span class="project-tag">Unity</span> <span class="project-tag">C#</span>
-                <h3>Oyun Mekaniği & Yapay Zeka Ajanı</h3>
-                <p>Oyuncu davranışlarına dinamik olarak tepki veren, State Machine (Durum Makinesi) mantığıyla çalışan temel seviye düşman yapay zekası ve fizik tabanlı hareket sistemleri.</p>
+            <div class="card">
+                <span class="tech-tag">Unity</span> <span class="tech-tag">C#</span>
+                <h3>Oyun Mekaniği Tasarımı</h3>
+                <p>Fizik motorları ve arayüz (Interface) mantığı kullanılarak tasarlanmış esnek ve genişletilebilir oyun sistemleri.</p>
+                <div class="code-overlay">
+                    <span>public interface IDamageable {<br>&nbsp;&nbsp;void TakeDamage(int amount);<br>}</span>
+                </div>
             </div>
 
         </div>
     </section>
 
-    <section id="contact" style="min-height: 70vh;">
-        <h2 class="section-title">Bağlantıya Geçelim</h2>
-        <div class="glass-card reveal 3d-card" style="text-align: center;">
-            <p style="font-size: 1.2rem; margin-bottom: 30px;">
-                Staj fırsatları, ortak projeler veya algoritma optimizasyonları üzerine derin bir sohbet için kapım her zaman açık.
-            </p>
-            <a href="mailto:erenbag23159@gmail.com" style="color: var(--primary); font-size: 1.5rem; text-decoration: none; font-weight: bold;">
-                <i class="fas fa-envelope"></i> erenbag23159@gmail.com
-            </a>
-            
-            <div class="social-links">
-                <a href="https://github.com/erenbag" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/erenbag/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <section id="experience">
+        <h2 class="section-title">03. Deneyim & Liderlik</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3 style="color: #fff;">Araç Yükleme Operatörü</h3>
+                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">Almanya | 07/2025 - 10/2025</p>
+                <p>Tamamen Almanca konuşulan bir ortamda uluslararası adaptasyon ve operasyonel problem çözme becerileri.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 style="color: #fff;">BİTEG Kulübü Başkanı</h3>
+                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">Türk-Alman Üni. | 2020 - 2022</p>
+                <p>Bilim ve teknoloji etkinlikleri yönetimi, ekip liderliği ve teknolojik seminer organizasyonları.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 style="color: #fff;">Voleybol Takımı Kaptanı</h3>
+                <p style="color: var(--accent-1); font-family: 'Fira Code', monospace;">2019 - 2021</p>
+                <p>Baskı altında stratejik karar alma ve takım motivasyonunu yönetme deneyimi.</p>
             </div>
         </div>
     </section>
+
+    <footer>
+        <div class="social-icons" style="margin-bottom: 20px;">
+            <a href="https://github.com/erenbag" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/erenbag/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:erenbag23159@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p>System Build by Muhammed Eren Bağ © 2026</p>
+    </footer>
 
     <script>
-        // Tema Değiştirici
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.getElementById('themeIcon');
-            if (document.body.classList.contains('light-mode')) {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            } else {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+        // Terminal Simülatörü Yazı Efekti
+        const commands = [
+            "init portfolio --user 'Eren Bağ'",
+            "loading modules...",
+            "> C++ / Java / Python / C#",
+            "> algorithms: parallele_algorithmen, lineare_programmierung",
+            "status: READY. Welcome to my workspace."
+        ];
+        
+        let cmdIndex = 0;
+        let charIndex = 0;
+        const terminalText = document.getElementById('terminal-text');
+
+        function typeCommand() {
+            if (cmdIndex < commands.length) {
+                if (charIndex === 0) {
+                    terminalText.innerHTML += '<br><span class="prompt"></span>';
+                }
+                
+                if (charIndex < commands[cmdIndex].length) {
+                    terminalText.innerHTML += commands[cmdIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeCommand, 40); // Yazma hızı
+                } else {
+                    cmdIndex++;
+                    charIndex = 0;
+                    setTimeout(typeCommand, 600); // Satır arası bekleme
+                }
             }
         }
-
-        // Daktilo Efekti
-        const texts = ["Yazılım Geliştirici", "Algoritma Analisti", "Yapay Zeka Meraklısı", "Problem Çözücü"];
-        let count = 0, index = 0, currentText = '', letter = '';
-        (function type() {
-            if (count === texts.length) count = 0;
-            currentText = texts[count];
-            letter = currentText.slice(0, ++index);
-            document.getElementById('typewriter').textContent = letter;
-            if (letter.length === currentText.length) {
-                count++; index = 0; setTimeout(type, 2000);
-            } else {
-                setTimeout(type, 100);
-            }
-        }());
-
-        // Cursor Glow
-        const glow = document.getElementById('cursorGlow');
-        window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
-        window.addEventListener('mousedown', () => glow.style.transform = 'translate(-50%, -50%) scale(0.8)');
-        window.addEventListener('mouseup', () => glow.style.transform = 'translate(-50%, -50%) scale(1)');
-
-        // Scroll Reveal ve Yetenek Barları Animasyonu
-        const reveals = document.querySelectorAll('.reveal');
-        const skillBars = document.querySelectorAll('.skill-level');
         
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            
-            // Kartları göster
-            reveals.forEach(reveal => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) reveal.classList.add('visible');
-            });
-
-            // Skills kısmına gelince barları doldur
-            skillBars.forEach(bar => {
-                const elementTop = bar.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 50) {
-                    bar.style.width = bar.getAttribute('data-width');
-                }
-            });
-        };
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
-
-        // 3D Kart Tilt Efekti
-        const cards = document.querySelectorAll('.3d-card');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            });
-        });
+        // Animasyonu başlat
+        setTimeout(typeCommand, 500);
     </script>
 </body>
 </html>
